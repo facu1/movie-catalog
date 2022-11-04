@@ -1,5 +1,7 @@
 node_modules
 public
+*.css
+*.svg
 .gitignore
 *.html
 package.json
