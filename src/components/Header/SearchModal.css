@@ -1,0 +1,23 @@
+.search-modal__content {
+  max-width: 100% !important;
+  margin-top: 0px !important;
+  height: 70px !important;
+}
+
+.search-modal__body {
+  display: flex !important;
+  align-items: center !important;
+  padding: 10px 20px !important;
+}
+
+.search-modal__close-button {
+  position: unset !important;
+  font-size: 22px !important;
+  margin-right: 8px !important;
+}
+
+@media screen and (min-width: 960px) {
+  .search-modal {
+    display: none !important;
+  }
+}
