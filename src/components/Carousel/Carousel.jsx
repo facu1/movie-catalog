@@ -1,11 +1,13 @@
-import { Image } from '@chakra-ui/react'
+import { Image, LinkBox, LinkOverlay } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 
 import { fakeData } from '../../../fake_data'
 
 import './Carousel.css'
 
-const images = fakeData.results.map(({ backdrop_path, title }) => ({
+const images = fakeData.results.map(({ id, backdrop_path, title }) => ({
+  id,
   img_url: `https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${backdrop_path}`,
   title
 })).slice(0, 5)
@@ -59,12 +61,15 @@ const Carousel = () => {
 
   return (
     <div className='carousel'>
-      <Image
-        className='carousel__img'
-        style={{ opacity: visible ? 1 : 0 }}
-        src={images[selected].img_url}
-        onLoad={() => setVisible(true)}
-      />
+      <LinkBox>
+        <LinkOverlay as={RouterLink} to={`/${images[selected].id}`} />
+        <Image
+          className='carousel__img'
+          style={{ opacity: visible ? 1 : 0 }}
+          src={images[selected].img_url}
+          onLoad={() => setVisible(true)}
+        />
+      </LinkBox>
       {descriptions[selected]}
       {imgSelector()}
     </div>

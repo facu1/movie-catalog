@@ -7,6 +7,7 @@ import './MovieDetail.css'
 
 const MovieDetail = () => {
   const {
+    id,
     title,
     backdrop_path,
     poster_path,
@@ -70,7 +71,7 @@ const MovieDetail = () => {
         </div>
       </div>
       {info('movie-detail__details')}
-      <MovieList movies={similarMovies} label='Similar Movies' />
+      <MovieList movies={similarMovies} label='Similar Movies' link={`/${id}/similar`} />
     </div>
   )
 }

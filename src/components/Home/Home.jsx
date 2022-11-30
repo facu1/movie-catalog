@@ -11,8 +11,8 @@ const Home = () => {
   return (
     <div className='home'>
       <Carousel />
-      <MovieList movies={movies} label='Now Playing' />
-      <MovieList movies={movies} label='Upcoming' />
+      <MovieList movies={movies} label='Now Playing' link='/now-playing' />
+      <MovieList movies={movies} label='Upcoming' link='/upcoming' />
     </div>
   )
 }

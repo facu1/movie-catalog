@@ -3,9 +3,11 @@ import { HStack, Image, Link, LinkBox, LinkOverlay } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useRef } from 'react'
 
+import { Link as RouterLink } from 'react-router-dom'
+
 import './MovieList.css'
 
-const MovieList = ({ movies, label, link = '/' }) => {
+const MovieList = ({ movies, label, link }) => {
   const listRef = useRef()
   const [showBackBttn, setShowBackBttn] = useState(false)
   const [showForwardBttn, setShowForwardBttn] = useState(true)
@@ -31,7 +33,7 @@ const MovieList = ({ movies, label, link = '/' }) => {
   return (
     <>
       <div className='movie-list__label'>
-        {label} <Link className='movie-list__link' href={link}>More +</Link>
+        {label} <Link as={RouterLink} className='movie-list__link' to={link}>More +</Link>
       </div>
       <div className='movie-list__list'>
         <button
@@ -45,7 +47,7 @@ const MovieList = ({ movies, label, link = '/' }) => {
         <HStack ref={listRef} className='movie-list__movies' spacing='unset'>
           {movies.map((movie) => (
             <LinkBox key={movie.id} className='movie-list__movie'>
-              <LinkOverlay href={`#${movie.id}`} />
+              <LinkOverlay as={RouterLink} to={`/${movie.id}`} />
               <Image
                 className='movie-list__image'
                 src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
