@@ -4,6 +4,8 @@
 
 .movie-detail__movie {
   position: relative;
+  width: 100%;
+  aspect-ratio: 99/40;
 }
 
 .movie-detail__back {

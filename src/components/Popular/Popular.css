@@ -1,0 +1,10 @@
+.popular {
+  padding: 0 10px;
+}
+
+.popular__title {
+  font-size: 2rem;
+  font-weight: bold;
+  padding-left: 10px;
+  padding-bottom: 20px;
+}

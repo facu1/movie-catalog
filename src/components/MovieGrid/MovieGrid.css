@@ -1,15 +1,4 @@
 .movie-grid {
-  padding: 0 10px;
-}
-
-.movie-grid__label {
-  font-size: 2rem;
-  font-weight: bold;
-  padding-left: 10px;
-  padding-bottom: 20px;
-}
-
-.movie-grid__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   width: fit-content;
@@ -27,25 +16,25 @@
 }
 
 @media screen and (min-width: 480px) {
-  .movie-grid__grid {
+  .movie-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (min-width: 768px) {
-  .movie-grid__grid {
+  .movie-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
 @media screen and (min-width: 960px) {
-  .movie-grid__grid {
+  .movie-grid {
     grid-template-columns: repeat(5, 1fr);
   }
 }
 
 @media screen and (min-width: 1328px) {
-  .movie-grid__grid {
+  .movie-grid {
     grid-template-columns: repeat(6, 1fr);
   }
 }

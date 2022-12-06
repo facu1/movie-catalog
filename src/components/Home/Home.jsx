@@ -1,18 +1,17 @@
-import { fakeData } from '../../../fake_data'
-
 import MovieList from '../MovieList/MovieList'
 import Carousel from '../Carousel/Carousel'
 
 import './Home.css'
+import { useSelector } from 'react-redux'
 
 const Home = () => {
-  const movies = fakeData.results.slice(0, 12)
+  const { nowPlaying, upcoming } = useSelector(({ movies }) => movies)
 
   return (
     <div className='home'>
       <Carousel />
-      <MovieList movies={movies} label='Now Playing' link='/now-playing' />
-      <MovieList movies={movies} label='Upcoming' link='/upcoming' />
+      <MovieList movies={nowPlaying} label='Now Playing' link='/now-playing' />
+      <MovieList movies={upcoming} label='Upcoming' link='/upcoming' />
     </div>
   )
 }

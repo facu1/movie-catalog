@@ -1,19 +1,23 @@
-import { Image, LinkBox, LinkOverlay } from '@chakra-ui/react'
+import { Image, LinkBox, LinkOverlay, Skeleton } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
-
-import { fakeData } from '../../../fake_data'
 
 import './Carousel.css'
 
-const images = fakeData.results.map(({ id, backdrop_path, title }) => ({
-  id,
-  img_url: `https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${backdrop_path}`,
-  title
-})).slice(0, 5)
-
 const Carousel = () => {
-  const [selected, setSelected] = useState(0  )
+  const movies = useSelector(({ movies }) => {
+    const { popular } = movies
+    if (!popular.length) return []
+
+    return popular.slice(0, 5).map(({ id, backdrop_path, title }) => ({
+      id,
+      img_url: `https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${backdrop_path}`,
+      title
+    }))
+  })
+
+  const [selected, setSelected] = useState(0)
 
   const [visible, setVisible] = useState(true)
 
@@ -33,20 +37,26 @@ const Carousel = () => {
     }, 500)
   }
 
-  const next = () => setSelected((selected) => selected + 1 === images.length ? 0 : selected + 1)
+  const next = () => setSelected((selected) => selected ===  4 ? 0 : selected + 1)
 
   const nextImg = () => setImg(next)
 
   const toIndex = (index) => () => setSelected(index)
 
-  const descriptions = images.map(({ title }) => (
+  if (!movies.length) {
+    return <div className='carousel'>
+      <Skeleton className='carousel__img' />
+    </div>
+  }
+
+  const descriptions = movies.map(({ title }) => (
     <div className='descriptions' style={{ opacity: visible ? 1 : 0 }} key={title}>{title}</div>
   ))
 
   const imgSelector = () => {
     return (
       <div className='img-selector'>
-        {images.map(({ title }, index) => (
+        {movies.map(({ title }, index) => (
           <div
             key={title}
             className={index === selected
@@ -62,11 +72,11 @@ const Carousel = () => {
   return (
     <div className='carousel'>
       <LinkBox>
-        <LinkOverlay as={RouterLink} to={`/${images[selected].id}`} />
+        <LinkOverlay as={RouterLink} to={`/${movies[selected].id}`} />
         <Image
           className='carousel__img'
           style={{ opacity: visible ? 1 : 0 }}
-          src={images[selected].img_url}
+          src={movies[selected].img_url}
           onLoad={() => setVisible(true)}
         />
       </LinkBox>

@@ -1,13 +1,48 @@
 import { MinusIcon, StarIcon } from '@chakra-ui/icons'
-import { Image } from '@chakra-ui/react'
-import { fakeMovieDetail, fakeSimilarMovies } from '../../../fake_data'
+import { Image, Skeleton } from '@chakra-ui/react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useMatch } from 'react-router-dom'
+import { getMovieDetails } from '../../reducers/moviesReducer'
 import MovieList from '../MovieList/MovieList'
 
 import './MovieDetail.css'
 
 const MovieDetail = () => {
+  const movie = useSelector(({ movies }) => movies.movieDetails)
+  const isLoading = useSelector(({ movies }) => movies.isLoading)
+
+  const dispatch = useDispatch()
+
+  const match = useMatch('/:id')
+
+  useEffect(() => {
+    dispatch(getMovieDetails(match.params.id))
+  }, [match])
+
+  if (!movie || isLoading) {
+    return (
+      <div className='movie-detail'>
+        <Skeleton isLoaded={movie}>
+          <div className='movie-detail__movie'>
+            <div className='movie-detail__back'>
+              <div style={{ width: '100%', height: '100%', aspectRatio: '99 / 40' }} />
+              <div className='movie-detail__background' />
+            </div>
+          </div>
+        </Skeleton>
+        <MovieList movies={[]} label='Similar Movies' />
+      </div>
+    )
+  }
+
+  const toHoursAndMinutes = (totalMinutes) => {
+    const hours = Math.floor(totalMinutes / 60)
+    const minutes = totalMinutes % 60
+    return `${hours}h ${minutes}m`
+  }
+
   const {
-    id,
     title,
     backdrop_path,
     poster_path,
@@ -17,18 +52,11 @@ const MovieDetail = () => {
     overview,
     runtime,
     tagline,
-    genres
-  } = fakeMovieDetail
-
-  const toHoursAndMinutes = (totalMinutes) => {
-    const hours = Math.floor(totalMinutes / 60)
-    const minutes = totalMinutes % 60
-    return `${hours}h ${minutes}m`
-  }
+    genres,
+    similarMovies
+  } = movie
 
   const genresList = genres.map((genre) => genre.name).join(', ')
-
-  const similarMovies = fakeSimilarMovies.results.slice(0, 12)
 
   const info = (className) => {
     return (
@@ -71,7 +99,7 @@ const MovieDetail = () => {
         </div>
       </div>
       {info('movie-detail__details')}
-      <MovieList movies={similarMovies} label='Similar Movies' link={`/${id}/similar`} />
+      <MovieList movies={similarMovies} label='Similar Movies' />
     </div>
   )
 }
