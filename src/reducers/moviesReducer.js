@@ -7,6 +7,7 @@ const initialState = {
   nowPlaying: [],
   upcoming: [],
   movieDetails: null,
+  searchWord: '',
   searchResults: [],
   isLoading: false
 }
@@ -22,6 +23,9 @@ const moviesSlice = createSlice({
     setMovieDetails(state, action) {
       return { ...state, movieDetails: action.payload }
     },
+    setSearchWord(state, action) {
+      return { ...state, searchWord: action.payload }
+    },
     setSearchResults(state, action) {
       return { ...state, searchResults: action.payload }
     },
@@ -31,7 +35,7 @@ const moviesSlice = createSlice({
   }
 })
 
-export const { setMovies, setMovieDetails, setLoading, setSearchResults } = moviesSlice.actions
+export const { setMovies, setMovieDetails, setLoading, setSearchResults, setSearchWord } = moviesSlice.actions
 
 export const initializeMovies = () => {
   return async (dispatch) => {
@@ -66,6 +70,7 @@ export const getMovieDetails = (movieId) => {
 export const getMovieSearch = (queryText) => {
   return async (dispatch) => {
     dispatch(setLoading(true))
+    dispatch(setSearchWord(queryText))
     const { results } = await moviesService.getSearch(queryText)
     dispatch(setSearchResults(results))
     dispatch(setLoading(false))
